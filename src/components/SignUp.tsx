@@ -50,29 +50,54 @@ export default function SignUp({
   };
 
   return (
-    <InputBox>
-      <Form onSubmit={postUserData}>
-        {description}
-        <InputEmail name='email' onChange={handleInput} placeholder='email' />
-        <InputPW
-          name='password'
-          onChange={handleInput}
-          placeholder='password'
-        />
-        <Button disabled={!isUserInfoValid}>{description}</Button>
-        <CloseButton onClick={closeModal}>X</CloseButton>
+    <MainWrapper>
+      <Overlay></Overlay>
+      <MainWrap>
+        <Form onSubmit={postUserData}>
+          {description}
+          <InputEmail name='email' onChange={handleInput} placeholder='email' />
+          <InputPW
+            name='password'
+            onChange={handleInput}
+            placeholder='password'
+          />
+          <Button disabled={!isUserInfoValid}>{description}</Button>
+          <CloseButton onClick={closeModal}>X</CloseButton>
 
-        {localStorage.getItem('access_token') && (
-          <LogoutButton onClick={removeToken}>LOGOUT</LogoutButton>
-        )}
-      </Form>
-    </InputBox>
+          {localStorage.getItem('access_token') && (
+            <LogoutButton onClick={removeToken}>LOGOUT</LogoutButton>
+          )}
+        </Form>
+      </MainWrap>
+    </MainWrapper>
   );
 }
 
-const InputBox = styled.div`
+const MainWrapper = styled.div`
+  position: relative;
+  margin: auto 0;
+  max-width: 100vw;
+  padding: 16px;
+  width: 100%;
+`;
+
+const Overlay = styled.div`
   width: 100vw;
   height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  background: white;
+`;
+
+const MainWrap = styled.div`
+  width: 100%;
+  height: 100vh;
+  margin: 0 auto;
+  position: relative;
+  z-index: 11;
+  background: #fff;
 `;
 
 const Form = styled.form`
@@ -82,6 +107,8 @@ const Form = styled.form`
   flex-direction: column;
   width: 100%;
   height: 100%;
+  z-index: 11;
+  background-color: #fff;
 `;
 const InputEmail = styled.input`
   margin: 15px;
@@ -92,7 +119,7 @@ const InputPW = styled(InputEmail)``;
 const Button = styled.button`
   width: 150px;
   height: 40px;
-  background-color: #3e9d72;
+  background-color: #ffe356;
 
   &: disabled {
     background-color: white;

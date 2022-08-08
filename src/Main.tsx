@@ -7,7 +7,7 @@ export default function Main() {
   const [modal, setModal] = useState('');
 
   const openLogin = () => {
-    setModal('login');
+    localStorage.getItem('access_token') ? navigate('/') : setModal('login');
   };
 
   const openSignUp = () => {
@@ -23,14 +23,16 @@ export default function Main() {
     localStorage.removeItem('access_token');
     navigate('/');
   };
-
   return (
     <TabWrapper>
       <LoginTab onClick={openLogin}>LOGIN</LoginTab>
       {modal === 'login' && (
         <SignUp signup={LOGIN_DATA} closeModal={closeModal} />
       )}
-      <SignUpTab onClick={openSignUp}>SIGNUP</SignUpTab>
+      {!localStorage.getItem('access_token') && (
+        <SignUpTab onClick={openSignUp}>SIGNUP</SignUpTab>
+      )}
+
       {modal === 'signUp' && (
         <SignUp signup={SIGNUP_DATA} closeModal={closeModal} />
       )}
@@ -45,6 +47,8 @@ const TabWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  width: 100vw;
+  height: 100vh;
 `;
 
 const LoginTab = styled.button`
