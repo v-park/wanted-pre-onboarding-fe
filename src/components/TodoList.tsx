@@ -40,8 +40,10 @@ export default function TodoList(props: modalType) {
             <TodoEntry key={id}>
               <TitleSpan>{title}</TitleSpan>
               <ButtonBox>
-                <button onClick={() => deleteTodo(id)}>X</button>
-                <button onClick={() => openModal(id)}>Details</button>
+                <DeleteButton onClick={() => deleteTodo(id)}>X</DeleteButton>
+                <DetailButton onClick={() => openModal(id)}>
+                  Details
+                </DetailButton>
               </ButtonBox>
             </TodoEntry>
           );
@@ -53,29 +55,37 @@ export default function TodoList(props: modalType) {
 
 const EntryBox = styled.div`
   font-family: sans-serif;
-  margin: 30px;
-  width: 500px;
+  margin: 20px;
+  width: 350px;
   height: 500px;
-  border: 2px solid orange;
 `;
 
 const TodoTextBox = styled.div`
   display: flex;
   justify-content: center;
   flex-direction: column;
-  border: 2px solid blue;
 `;
 
 const TodoEntry = styled.div`
   display: flex;
-  border: 1px solid yellowgreen;
+  justify-content: space-between;
+  margin: 5px;
 `;
 
 const ButtonBox = styled.div`
+  display: flex;
+  justify-content: space-around;
+  width: 100px;
   border: 2px solid pink;
 `;
 
-const TitleSpan = styled.span``;
-const DeleteButton = styled.button``;
+const TitleSpan = styled.span`
+  display: flex;
+  justify-content: center;
+`;
+const DeleteButton = styled.button`
+  border: 1px solid silver;
+  border-style: none;
+`;
 
-const EditButton = styled.button``;
+const DetailButton = styled(DeleteButton)``;

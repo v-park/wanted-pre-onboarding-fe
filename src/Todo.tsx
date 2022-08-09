@@ -6,7 +6,7 @@ import Detail from './components/Detail';
 
 export default function Todo() {
   const [todo, setTodo] = useState({ title: '', content: '' });
-  const [list, setList] = useState([]);     
+  const [list, setList] = useState([]);
   const [detail, setDetail] = useState({
     title: '',
     content: '',
@@ -53,7 +53,7 @@ export default function Todo() {
     createdAt: string;
     updatedAt: string;
   }
-
+  const isButtonActive = title.length > 0 && content.length > 0;
   const openModal = (id: string) => {
     // axios
     //   .get(`http://localhost:8080/todos/${id}`, {
@@ -62,6 +62,7 @@ export default function Todo() {
     //   .then((res) => console.log(res.data));
     const result = list.filter((element: elementType) => element.id === id)[0];
     setDetail(result);
+    console.log(result);
   };
   const getData = () => {
     axios
@@ -79,18 +80,34 @@ export default function Todo() {
   return (
     <TodoWrapper>
       <TodoBox>
-        <InputTitle name='title' onChange={handleInput} placeholder='title' />
-        <InputContent
-          name='content'
-          onChange={handleInput}
-          placeholder='content'
-        />
+        <InputWrapper>
+          <div>
+            <InputTitle
+              name='title'
+              onChange={handleInput}
+              placeholder='title'
+            />
+            <InputContent
+              name='content'
+              onChange={handleInput}
+              placeholder='content'
+            />
+          </div>
+          <ButtonWrapper>
+            <AddButton onClick={createTodo} disabled={!isButtonActive}>
+              <AddText>Add</AddText>
+            </AddButton>
+          </ButtonWrapper>
+        </InputWrapper>
         <TodoList openModal={openModal} list={list} />
-        <AddButton onClick={createTodo}>Add</AddButton>
       </TodoBox>
       <SideWrap>
         {detail.id && (
-          <Detail detail={detail} detailHandleInput={detailHandleInput} />
+          <Detail
+            detail={detail}
+            detailHandleInput={detailHandleInput}
+            isButtonActive={isButtonActive}
+          />
         )}
       </SideWrap>
     </TodoWrapper>
@@ -98,35 +115,57 @@ export default function Todo() {
 }
 const TodoWrapper = styled.div`
   display: flex;
+  justify-content: center;
   width: 100%;
-  height: 100%;
-  margin: 0 auto;
-  border: 3px solid navy;
+  margin: 100px auto;
+  border: 3px solid black;
 `;
 
 const TodoBox = styled.div`
-  /* display: flex;
+  display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center; */
   width: 400px;
-  height: 400px;
-  margin: 0 auto;
-  border: 4px solid green;
+  height: 600px;
+  border: 2px solid silver;
 `;
 
-const SideWrap = styled.div``;
+const InputWrapper = styled.div`
+  width: 350px;
+`;
+
+const SideWrap = styled.div`
+  width: 300px;
+  background-color: lavender;
+`;
 
 const InputTitle = styled.input`
-  width: 300px;
-  height: 30px;
-  margin: 10px;
+  width: 100%;
+  height: 40px;
+  margin: 20px;
 `;
 
 const InputContent = styled(InputTitle)``;
 
+const ButtonWrapper = styled.div`
+  margin: 20px auto;
+`;
 const AddButton = styled.button`
   display: flex;
-  width: 150px;
+  width: 350px;
   height: 40px;
+  margin: 20px;
+  border: transparent;
+  background-color: #f4b869;
+  cursor: pointer;
+  &:disabled {
+    background-color: silver;
+  }
+`;
+
+const AddText = styled.div`
+  font-size: 15px;
+  color: white;
+  width: 50px;
+  margin: auto;
+  font-family: 'Lucida Sans', sans-serif;
 `;
