@@ -34,11 +34,11 @@ export default function TodoList(props: modalType) {
   return (
     <EntryBox>
       <TodoTextBox>
-        {list.map(({ id, title }) => {
+        {list.map(({ id, todo }) => {
           return (
             <TodoEntry key={id}>
               <Checkbox type='checkbox' />
-              <TitleSpan>{title}</TitleSpan>
+              <TitleSpan>{todo}</TitleSpan>
               <ButtonBox>
                 <DeleteButton onClick={() => deleteTodo(id)}>X</DeleteButton>
                 <DetailButton onClick={() => openModal(id)}>
