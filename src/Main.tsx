@@ -7,7 +7,9 @@ export default function Main() {
   const [modal, setModal] = useState('');
 
   const openLogin = () => {
-    localStorage.getItem('access_token') ? navigate('/') : setModal('login');
+    localStorage.getItem('access_token')
+      ? navigate('/todo')
+      : setModal('login');
   };
 
   const openSignUp = () => {

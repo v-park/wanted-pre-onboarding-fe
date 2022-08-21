@@ -39,10 +39,8 @@ export default function SignUp({
         }
       });
   };
-  const emailRegExp = /^([a-z0-9_.-]+)@([\da-z.-]+)\.([a-z.]{2,6})$/;
-  const isPasswordValid = password.length > 7;
-  const isEmailValid = emailRegExp.test(email);
-  const isUserInfoValid = isEmailValid && isPasswordValid;
+
+  const isUserInfoValid = email.includes('@') && password.length > 7;
 
   const removeToken = () => {
     localStorage.removeItem('access_token');

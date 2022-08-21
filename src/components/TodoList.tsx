@@ -5,11 +5,10 @@ import styled from 'styled-components';
 interface modalType {
   openModal: (id: string) => void;
   list: {
-    title: string;
-    content: string;
     id: string;
-    createdAt: string;
-    updatedAt: string;
+    todo: string;
+    isCompleted: boolean;
+    userId: string;
   }[];
 }
 
@@ -38,6 +37,7 @@ export default function TodoList(props: modalType) {
         {list.map(({ id, title }) => {
           return (
             <TodoEntry key={id}>
+              <Checkbox type='checkbox' />
               <TitleSpan>{title}</TitleSpan>
               <ButtonBox>
                 <DeleteButton onClick={() => deleteTodo(id)}>X</DeleteButton>
@@ -71,6 +71,8 @@ const TodoEntry = styled.div`
   justify-content: space-between;
   margin: 5px;
 `;
+
+const Checkbox = styled.input``;
 
 const ButtonBox = styled.div`
   display: flex;
