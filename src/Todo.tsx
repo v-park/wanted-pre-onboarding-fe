@@ -3,19 +3,18 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import TodoList from './components/TodoList';
 import Detail from './components/Detail';
+import { customAxios } from './Auth/customAxios';
+import { constants } from 'fs';
 
 export default function Todo() {
-  const [todo, setTodo] = useState({ title: '', content: '' });
+  const [todo, setTodo] = useState({ todo: '', isCompleted: false });
   const [list, setList] = useState([]);
   const [detail, setDetail] = useState({
-    title: '',
-    content: '',
+    todo: '',
+    isCompleted: false,
     id: '',
-    createdAt: '',
-    updatedAt: '',
+    userId: '',
   });
-
-  const { title, content } = todo;
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -28,50 +27,32 @@ export default function Todo() {
     getData();
   };
 
-  const headers = {
-    Authorization: localStorage.getItem('access_token')!,
-  };
-
-  const createTodo = () => {
-    axios.post(
-      'http://localhost:8080/todos',
-      {
-        title: title,
-        content: content,
-      },
-      {
-        headers: headers,
-      }
-    );
+  const createTodo = async () => {
+    await customAxios.post('todos', {
+      todo: todo.todo,
+    });
     getData();
   };
 
   interface elementType {
-    title: string;
-    content: string;
     id: string;
-    createdAt: string;
-    updatedAt: string;
+    todo: string;
+    isCompleted: boolean;
+    userId: string;
   }
-  const isButtonActive = title.length > 0 && content.length > 0;
   const openModal = (id: string) => {
     // axios
     //   .get(`http://localhost:8080/todos/${id}`, {
     //     headers: headers,
     //   })
     //   .then((res) => console.log(res.data));
-    const result = list.filter((element: elementType) => element.id === id)[0];
+    const result = list.filter((element: elementType) => element.id == id)[0];
     setDetail(result);
-    console.log(result);
   };
-  const getData = () => {
-    axios
-      .get('http://localhost:8080/todos', {
-        headers: headers,
-      })
-      .then((res) => {
-        setList(res.data.data);
-      });
+  const getData = async () => {
+    await customAxios.get(`todos`).then((res) => {
+      setList(res.data);
+    });
   };
   useEffect(() => {
     getData();
@@ -82,32 +63,19 @@ export default function Todo() {
       <TodoBox>
         <InputWrapper>
           <div>
-            <InputTitle
-              name='title'
-              onChange={handleInput}
-              placeholder='title'
-            />
-            <InputContent
-              name='content'
-              onChange={handleInput}
-              placeholder='content'
-            />
+            <InputTitle name='todo' onChange={handleInput} placeholder='todo' />
           </div>
           <ButtonWrapper>
-            <AddButton onClick={createTodo} disabled={!isButtonActive}>
+            <AddButton onClick={createTodo}>
               <AddText>Add</AddText>
             </AddButton>
           </ButtonWrapper>
         </InputWrapper>
-        <TodoList openModal={openModal} list={list} />
+        {list && <TodoList openModal={openModal} list={list} />}
       </TodoBox>
       <SideWrap>
         {detail.id && (
-          <Detail
-            detail={detail}
-            detailHandleInput={detailHandleInput}
-            isButtonActive={isButtonActive}
-          />
+          <Detail detail={detail} detailHandleInput={detailHandleInput} />
         )}
       </SideWrap>
     </TodoWrapper>

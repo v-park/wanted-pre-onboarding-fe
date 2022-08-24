@@ -7,7 +7,7 @@ export default function Router() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path='/auth' element={<Main />} />
+        <Route path='/' element={<Main />} />
         <Route path='/todo' element={<Todo />} />
       </Routes>
     </BrowserRouter>

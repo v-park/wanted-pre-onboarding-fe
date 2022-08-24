@@ -72,10 +72,10 @@ const LogoutButton = styled.button`
 
 const SIGNUP_DATA: UserInfo = {
   description: 'signup',
-  url: '/create',
+  url: '/auth/signup',
 };
 
 const LOGIN_DATA: UserInfo = {
   description: 'login',
-  url: '/login',
+  url: '/auth/signin',
 };

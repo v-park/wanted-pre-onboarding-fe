@@ -3,14 +3,12 @@ import styled from 'styled-components';
 
 interface propsType {
   detail: {
-    title: string;
-    content: string;
     id: string;
-    createdAt: string;
-    updatedAt: string;
+    todo: string;
+    isCompleted: boolean;
+    userId: string;
   };
   detailHandleInput: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  isButtonActive: boolean;
 }
 
 export default function Detail(props: propsType) {
@@ -21,17 +19,16 @@ export default function Detail(props: propsType) {
   };
 
   const {
-    detail: { id, title, content },
+    detail: { id, todo, isCompleted },
     detailHandleInput,
-    isButtonActive,
   } = props;
 
   return (
     <DetailWrapper>
       {edit ? (
         <DetailInputWrapper>
-          <div>{title}</div>
-          <div>{content}</div>
+          <div>{todo}</div>
+
           <DetailButtonWrapper>
             <EditButton onClick={editMode}>Edit</EditButton>
             <UpdateButton>Update</UpdateButton>
@@ -40,17 +37,12 @@ export default function Detail(props: propsType) {
       ) : (
         <DetailInputWrapper>
           <DetailInputTitle
-            name='title'
-            value={title}
+            name='todo'
+            value={todo}
             onChange={detailHandleInput}
-            placeholder='title'
+            placeholder='todo'
           />
-          <DetailInputContent
-            name='content'
-            value={content}
-            onChange={detailHandleInput}
-            placeholder='content'
-          />
+
           <DetailButtonWrapper>
             <EditButton onClick={editMode}>Edit</EditButton>
             <UpdateButton>Update</UpdateButton>

@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { MAIN_URL } from '../config/config';
+import { customAxios } from '../Auth/customAxios';
 
 interface PropsType {
   signup: { description: string; url: string };
@@ -26,14 +28,14 @@ export default function SignUp({
 
   const postUserData = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    axios
-      .post(`http://localhost:8080/users/${url}`, {
+    customAxios
+      .post(`${url}`, {
         email: email,
         password: password,
       })
       .then((res) => {
-        localStorage.setItem('access_token', res.data.token);
-        if (res.data.token) {
+        localStorage.setItem('access_token', res.data.access_token);
+        if (res.data.access_token) {
           closeModal();
           alert('login success');
         }

@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import { customAxios } from '../Auth/customAxios';
 
 interface modalType {
   openModal: (id: string) => void;
@@ -15,31 +16,20 @@ interface modalType {
 export default function TodoList(props: modalType) {
   const { openModal, list } = props;
 
-  const headers = {
-    Authorization: localStorage.getItem('access_token')!,
-  };
-
   const deleteTodo = (id: string) => {
-    axios.delete(`http://localhost:8080/todos/${id}`, { headers: headers });
+    customAxios.delete(`/todos/${id}`);
   };
-
-  // const editTodo = (id: string) => {
-  //   axios.put(
-  //     `http://localhost:8080/todos/${id}`,
-  //     // { title, content },
-  //     { headers: headers }
-  //   );
-  // };
 
   return (
     <EntryBox>
       <TodoTextBox>
-        {list.map(({ id, todo }) => {
+        {list.map(({ id, todo, isCompleted }) => {
           return (
             <TodoEntry key={id}>
               <Checkbox type='checkbox' />
               <TitleSpan>{todo}</TitleSpan>
               <ButtonBox>
+                {isCompleted}
                 <DeleteButton onClick={() => deleteTodo(id)}>X</DeleteButton>
                 <DetailButton onClick={() => openModal(id)}>
                   Details
